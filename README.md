@@ -74,6 +74,12 @@ Once your stepper can move, it's a pretty good indication that the board is runn
 
 ### SKRv1.3 Setup with TMC Drivers
 If you chose the SKR v1.3 as the mainboard, the setup is more or less similar. The diagram below explains it well: 
+![Image of SKRv1.3](https://github.com/anthonyzhou-1/3Dprinting/blob/master/skrv1.3.jpg)
+
+With the SKR v1.3, the pins to short are more complicated, since in addition to each setting each driver's stepping mode, you also have to short pins to set how the board interacts with each driver. TMC drivers have the capability to detect large spikes in counter EMF, which is useful to home the printer without hardware endstops, but this capability must be enabled by shorting the correct pins. Alternatively, you can forgo this setup and use the TMC drivers as you would a standard stepper driver. The guide that comes with purchasing an SKRv1.3 board is great at explaining this. 
+
+Unfortunately, there isn't an easy way to upload software to the 32-bit board and test the stepper motors, so testing will have to occur after installing firmware.
+
 
 
 
