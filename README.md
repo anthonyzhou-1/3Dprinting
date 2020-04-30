@@ -30,6 +30,10 @@ After you gather all the parts, we can finally start building the printer. The f
 I think this part is pretty self-explanatory, there really isnt much nuance or tricks to assembling the frame. I think Tech2C does a great job of explaining this part, and you just have to take the time to sit down, square everything off, and bolt everything together. 
 
 ### Assembling the Gantries
+The gantries can be difficult to assembly due to the amount of aligning that needs to be done between the rods. I'd recommending setting up the X gantry first and making sure that the X slider can move smoothly along either the carbon fiber rod or aluminum rod (depends on which you buy). The copper lubricated linear bearing or IGUS bearing is generally not that great at sliding along the rods at first, since the embedded drops of lubricant actually need to be released by wear and tear. I'd recommend using some sort of grease to help in this process, and maybe even sand down the diameter of the rods if there is severe binding. Another thing that could cause binding is the two rods are slightly skew after assembly. In this case, it's pretty easy to slightly bend the rods one way or another to adjust them to be parallel again. Other than that, the LMU8 and LMU12 bearings tend to be pretty good in sliding along the rods and shouldn't pose much trouble for the Y and Z gantries.
+
+### Assembling the Motors and Belts
+The motors and and belts are relatively easy to assemble, since the frame and supporting geometries are already in place to properly align and install the motors+belts. For the belt, it is important to properly tension it during this step, since it's really difficult to adjust tension later and a loose belt can really affect print quality. 
 
 
 
