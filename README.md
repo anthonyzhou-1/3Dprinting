@@ -46,7 +46,7 @@ By this point, you should have a functional XYZ gantry that is driven by stepper
 ## Setting up the Electronics
 Depending on the mainboard and stepper drivers you've chosen this is going to look a bit different, but the process is more or less the same.
 
-### Mega/RAMPS setup with A4988 Drivers
+### Mega/RAMPS Setup with A4988 Drivers
 This is probably the simplest setup. Just follow the wiring diagram below:
 
 ![Image of RAMPS](https://github.com/anthonyzhou-1/3Dprinting/blob/master/ramps.png)
@@ -67,7 +67,14 @@ The only other thing to pay attention to is adjusting the potentiometers on the 
 
 **Before powering on the board, make sure the input voltage is the correct polarity and the motor drivers and installed correctly** Doing any of these things wrong will destroy your electronics.
 
-Once powered on, I'd recommend quickly writing an Arduino program to control a stepper motor. A good guide for doing that is here: https://howtomechatronics.com/tutorials/arduino/how-to-control-stepper-motor-with-a4988-driver-and-arduino/. The pinouts from the Mega to RAMPS shield can be found here: (Just reference the pinout on the Mega connection to the correct pin on the stepper drivers)
+Once powered on, I'd recommend quickly writing an Arduino program to control a stepper motor. A good guide for doing that is here: https://howtomechatronics.com/tutorials/arduino/how-to-control-stepper-motor-with-a4988-driver-and-arduino/. The pinouts from the Mega to RAMPS shield can be found below. (Just reference the pinout on the Mega connection to the correct pin on the stepper drivers)
+![Image of RAMPSpinout](https://github.com/anthonyzhou-1/3Dprinting/blob/master/rampspinout.png)
+
+Once your stepper can move, it's a pretty good indication that the board is running as it should be.
+
+### SKRv1.3 Setup with TMC Drivers
+If you chose the SKR v1.3 as the mainboard, the setup is more or less similar. The diagram below explains it well: 
+
 
 
 
