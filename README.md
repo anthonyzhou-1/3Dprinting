@@ -49,6 +49,23 @@ Depending on the mainboard and stepper drivers you've chosen this is going to lo
 ### Mega/RAMPS setup with A4988 Drivers
 This is probably the simplest setup. Just follow the wiring diagram below:
 
+![Image of RAMPS](https://github.com/anthonyzhou-1/3Dprinting/blob/master/ramps.png)
+
+The only caveat is **make sure you short the appropriate pins under each driver**. If you don't do this, the printer will default to full stepping mode, it will be near unusable. I'd recommend 1/16 stepping since the Arduino Mega in general cannot handle lower stepping modes.  The table of pins to short is shown below.
+
+1     2    3 \
+no   no    no    full step\
+yes  no    no    half step\
+no   yes   no    1/4 step\
+yes  yes   no    1/8 step\
+no   no    yes   1/16 step\
+yes  no    yes   1/32 step\
+no   yes   yes   1/64 step\
+yes  yes   yes   1/128 step
+
+The only other thing to pay attention to is adjusting the potentiometers on the A4988 drivers to limit the output current of the driver. A good guide by E3D is here: https://e3d-online.dozuki.com/Guide/VREF+adjustment+A4988/92. This is an important step since if you give your motors too much current, they can overheat and if you give it too little current, they won't have the torque to move your gantries.
+
+
 
 
 
