@@ -65,6 +65,11 @@ yes  yes   yes   1/128 step
 
 The only other thing to pay attention to is adjusting the potentiometers on the A4988 drivers to limit the output current of the driver. A good guide by E3D is here: https://e3d-online.dozuki.com/Guide/VREF+adjustment+A4988/92. This is an important step since if you give your motors too much current, they can overheat and if you give it too little current, they won't have the torque to move your gantries.
 
+**Before powering on the board, make sure the input voltage is the correct polarity and the motor drivers and installed correctly** Doing any of these things wrong will destroy your electronics.
+
+Once powered on, I'd recommend quickly writing an Arduino program to control a stepper motor. A good guide for doing that is here: https://howtomechatronics.com/tutorials/arduino/how-to-control-stepper-motor-with-a4988-driver-and-arduino/. The pinouts from the Mega to RAMPS shield can be found here: (Just reference the pinout on the Mega connection to the correct pin on the stepper drivers)
+
+
 
 
 
