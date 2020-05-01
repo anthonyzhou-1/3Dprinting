@@ -81,10 +81,62 @@ With the SKR v1.3, the pins to short are more complicated, since in addition to 
 Unfortunately, there isn't an easy way to upload software to the 32-bit board and test the stepper motors, so testing will have to occur after installing firmware.
 
 ## Uploading Firmware
-The steps for uploading firmware to your board will differ again based on if you've used an 8-bit board or a 32-bit board. It is substantially easier with an 8-bit board, since this setup is more common among DIY 3D printers and as such has a much bigger community to provide support. Furthermore, Arduino's programming environment and process for uploading firmware is designed around an easy and streamlined user experience. The recommended firmware to run is Marlin, but it is possible to run other firmwares like Repetier or for 32-bit boards, Smoothieware. As such, I'll be focusing on how to setup Marlin.
+The steps for uploading firmware to your board will differ again based on if you've used an 8-bit board or a 32-bit board. It is substantially easier with an 8-bit board, since this setup is more common among DIY 3D printers and as such has a much bigger community to provide support. Furthermore, Arduino's programming environment and process for uploading firmware is designed around an easy and streamlined user experience. The recommended firmware to run is Marlin, but it is possible to run other firmwares like Repetier or for 32-bit boards, Smoothieware. As such, I'll be focusing on how to setup Marlin. They have a great auto-build tool that can be found here: https://marlinfw.org/docs/basics/install_platformio.html, but it requires a bit of setup and if you'd rather do it manually the steps are below.
 
-### Arduino Mega/RAMPS setup
-Marlin has as great guide on how to get started here: https://marlinfw.org/docs/basics/install_arduino.html. Before uploading to your Mega you'll have to configure the Marlin firmware in the configuration.h file. Again, Marlin has a good guide here: https://marlinfw.org/docs/configuration/configuration.html. It mostly depends on commenting or uncommenting commands and also setting variables to specific values. A challenging part of the config can be setting the correct steps/mm of your axes, but the Prusa calcaultor does a good job of doing all the math for you: https://blog.prusaprinters.org/calculator/. A note on the configuration: while it is pretty straightforward, it is important to carefully read through all the options and set them correctly. The majority of issues that arise in building a 3D printer arise from a faulty config file. The hardware and electronics tend to be quite reliable, and since the config file can often be overwhelming it is easy to make a mistake there. 
+### Arduino Mega/RAMPS Setup
+Marlin has as great guide on how to get started here: https://marlinfw.org/docs/basics/install_arduino.html. Before uploading to your Mega you'll have to configure the Marlin firmware in the configuration.h file. Again, Marlin has a good guide here: https://marlinfw.org/docs/configuration/configuration.html. It mostly depends on commenting or uncommenting commands and also setting variables to specific values. A challenging part of the config can be setting the correct steps/mm of your axes, but the Prusa calcaultor does a good job of doing all the math for you: https://blog.prusaprinters.org/calculator/. A note on the configuration: while it is pretty straightforward, it is important to carefully read through all the options and set them correctly. The majority of issues that arise in building a 3D printer arise from a faulty config file. The hardware and electronics tend to be quite reliable, and since the config file can often be overwhelming it is easy to make a mistake there. After doing this, I would test the upload by connecting through the Arduino serial terminal and sending an M119 command to read the state of the endstops. This is a great non-destructive command to use to check serial connection, and if everything is good send a M502 followed by M500 to initialize the EEPROM data.
+
+### SKRv1.3 Setup
+Marlin 2.0 by default can run on both 8-bit and 32-bit boards, but the process of uploading to a 32-bit board is a bit different and more complex. A pretty good guide on how to do this is here: https://marlinfw.org/docs/basics/install_rearm.html, although there are some caveats to keep in mind. PlatformIO tends to run better on Microsoft Visual Studio as opposed to Atom. Furthermore, unlike the Arduino programming environment, it isn't as easy just to press a button and have the firmware uploaded to your board. If you've formatted the SKRv1.3's internal microSD card correctly, when connected to it from your laptop, its internal microSD card should show up in the file explorer. However, this is not always the case, and alternate method for uploading firmware is to take the internal microSD card out and manually insert it into your computer through a microSD to SD card adapter. You can then put the firmware.bin file onto the microSD and then physically re-insert it into the mainboard. Upon resetting the board, the firmware should boot. At this point, I'd recommend installing some sort of terminal program, such as Pronterface or Repetier-Host, and test an M119 command to read the state of the endstops. Again, if everything is good, send a M502 followed by M500 to initialize the EEPROM data.
+
+## First Tests and Calibration
+Congrats on getting the printer functional! At this point, you could print something, but to increase the quality and longevity of your printer, it's good to run a few simple tests and calibrate the settings of the printer.
+
+### Simple Tests 
+Either using gcode commands or Marlin's interface on the LCD, I'd recommend testing these features:
+1. Moving X, Y, Z axes
+2. Heating up hotend
+3. Extruding filament
+4. Turning on part cooling fan
+5. Heating up bed
+6. Checking if endstops trigger
+7. Check inductive sensor (if using)
+8. Check XYZ homing procedure
+
+At this point, I would install a slicer of your choice. I'd recommend Cura, Slic3r or Ideamaker, which are all solid free to use choices.
+
+### Calibrating First Layer
+If you don't have an inductive sensor or some other auto bed-leveling feature, this step is important in making sure your first layer sticks to the bed. Simply move to one of the four corners and slip a piece of regular printer paper under the nozzle. Zero the Z-axis and adjust the bed leveling screws such that there is barely any resistance between the nozzle, bed, and paper. Repeat this process for the rest of the corners. In cases where the nozzle is way too far or too close to the bed, adjust the hardware Z offset such that the bed will contact the Z endstop at a different height and thus set a different zero. 
+
+### Calibrating Steps/mm
+In theory, the steps/mm of your stepper motors should be exactly what the calculator outputs, but in reality a lot of factors can affect this value. To calibrate this value, a 20 mm XYZ calibration cube is usually used: https://www.thingiverse.com/thing:1278865. After printing, measure each dimension with a pair of calipers, scale the steps/mm appropriately in the firmware, and reupload the firmware.
+
+### Calibrating Extrusion Multiplier
+Another important setting to calibrate is the extrusion multiplier of the printer. In theory, the extrusion width of each line of filament extruded is the diameter of the nozzle, but again this is not practically the case. A simple model to print that will help with finding an extrusion multiplier can be found here: https://www.thingiverse.com/thing:2490893. On some slicers, this setting is called flow or flow multiplier, and usually ranges between 90-110%.
+
+### Checking Print Quality
+So far, the two calibrations were focused on bringing dimensional accuracy to the printer, but there are a host of other settings to become familiar with in order to produce high-quality prints. (Print speed, hotend temperature, retraction settings, cooling, etc.) A good way to get familiar with these settings and find their optimal values is to print a benchy: https://www.thingiverse.com/thing:763622. There are plenty of guides online that help diagnose your benchy and depending on the quality of the resulting print, you will probably have to adjust and re-print the model.
+
+### Diagnosing Common Problems
+3D printing is a really exciting process, but you will invariably encounter problems both with print quality and prints failing. Below I've compiled a list of common problems and how to deal with them, but it is in no way comprehensive. 
+
+1. Prints not adhering the bed: This can be caused by a lot of factors such as bed temp and filament material. However, the most common issue is the bed is not leveled. I would manually re-level the bed or set a different Z-offset if using a auto bed-leveling probe. If this still doesn't solve the problem some generic gluestick should help prints adhere to the bed when applied before printing. Another fix is adjusting with the bed temp according to the filament printed. Some filaments require temperatures up to 100 degrees Celsius to print, while others can adhere without any heating at all. In general, make sure to print first layers at slow speeds so that the first layer can properly adhere.
+
+2. Prints warping off the bed: This is usually caused by a large temperature drop between the bed and the surrounding environment causing the edges/corners of the print to peel away from the bed. A simple way to fix this is to print a brim around the object to increase the first layer adhesion. Alternatively, you could also use a gluestick to further increase adhesion or in some cases, up the bed temperature.
+
+3. Stringing: This is usually a problem with either flexible filaments or PETG. I would recommend increasing retraction distance and speed, or looking for specific filament profiles online to dial in the correct retraction settings. Furthemore, increasing travel speed can reduce the chance for strings to form between features. Alternatively, you could simply use a heat gun to melt off the strings in post-processing.
+
+4. Melted/Warped features: This is usually characterized by sagging features caused by a lack of cooling. Thin features are especially susceptible since they don't have much time to cool before a new layer is added on. In this case, the filament sags since it hasn't had time to harden, and an easy fix is to simply up the cooling, or if the cooling is already at max, slow down the print speed.
+
+5. Blobbing/Poor surface finish: This can have a variety of factors that cause this issue. You could be printing too fast and not giving enough time for the plastic to properly melt in the heater block, which would cause the extruded plastic to not properly follow the contour of the printhead. In this case, up the hotend temp and print slower. Furthermore, you could have insufficient cooling, which would could allow the extruded plastic to slightly move before it solidifies. Overextrusion is also a possible cause, since extruding too much plastic tends to lead to blobs of excess plastic forming on the surface. A good surface finish often requires a lot of tuning and adjusting of print settings.
+
+6. CLogged Nozzle: This one kinda sucks to have and takes a bit of effort to fix. The first thing I would try is to heat the extruder to around 250 degrees Celsius and try to push the filament through by hand as hard as you can. If this doesn't do anything, I would take something like an acupuncture needle or other thin object and try to poke at the nozzle's outer hole. If this still doens't clear the clog, you can try an cold pull. As the hotend cools down, at around 100-150 degrees Celsius, you can try to pull the filament out and hopefully the clogged plastic will emerge as a solid piece. If you've been printing in ABS, you can try dissolving the clogged plastic by putting the clogged nozzle in acetone. If all hope is lost, just buy a new nozzle for around 5-10 dollars. 
+
+By this point, you should have a fully functional printer capable of producing repeatable, high-quality parts. 
+
+# Happy Printing!
+
+
 
 
 
