@@ -135,7 +135,7 @@ So far, the two calibrations were focused on bringing dimensional accuracy to th
 By this point, you should have a fully functional printer capable of producing repeatable, high-quality parts. 
 
 # Happy Printing!
-Special thanks to Tech2C, E3D, RepRap, Bigtreetech, Marlin, Mark Rehorst, and all the manufacturers and engineers that make 3D printing at home possible.
+Special thanks to Tech2C, E3D, RepRap, Bigtreetech, Marlin, Mark Rehorst, CreativeTools, Thingiverse, hrishib, iDig3Dprinting, HowToMechatronics, Prusa Printers, and all the manufacturers, organizations, and engineers that make 3D printing at home possible.
 
 
 
